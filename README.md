@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🌐 Cloud-Based Network Monitoring System
 
 ## 🎯 Overview
@@ -41,3 +42,7 @@ Python automation
 Network monitoring
 
 DevOps practices
+=======
+# network-monitoring-system
+Cloud-based network monitoring with Prometheus, Grafana, and Python
+>>>>>>> 9c3863c49828abb01b17314bb4beb88bd112af0d
