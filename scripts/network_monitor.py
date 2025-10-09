@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
 import time
 import subprocess
 import socket
 import requests
 from prometheus_client import start_http_server, Gauge
 
-# Create metrics - FIXED: No labels for latency, labels for others
 LATENCY = Gauge('network_latency_ms', 'Network latency in milliseconds', ['target'])
 PORT_STATUS = Gauge('port_status', 'Port status', ['target', 'port'])
 HTTP_RESPONSE_TIME = Gauge('http_response_time_ms', 'HTTP response time in ms', ['url'])
@@ -52,14 +50,14 @@ def collect_metrics():
     print(f"🕐 Collecting metrics at {time.strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*50)
     
-    # Ping latency to multiple targets - FIXED: Use labels correctly
+
     targets = ["8.8.8.8", "1.1.1.1", "github.com"]
     for target in targets:
         latency = ping_host(target)
-        LATENCY.labels(target=target).set(latency)  # Now this works with labels
+        LATENCY.labels(target=target).set(latency)  
         print(f"📡 Latency to {target}: {latency:.2f}ms")
     
-    # Check common ports
+
     port_checks = [
         ("google.com", 80),
         ("google.com", 443),
@@ -75,7 +73,7 @@ def collect_metrics():
         time_text = f" ({connect_time:.1f}ms)" if status else ""
         print(f"🔌 Port {port} on {host}: {status_text}{time_text}")
     
-    # HTTP response times
+
     websites = [
         "http://google.com",
         "http://github.com",
@@ -88,10 +86,10 @@ def collect_metrics():
         print(f"🌐 {url}: {response_time:.1f}ms")
 
 if __name__ == '__main__':
-    print("🚀 Starting Network Monitor...")
-    print("📊 Metrics will be available at: http://localhost:8000/metrics")
-    print("⏱️  Collecting metrics every 15 seconds...")
-    print("🛑 Press Ctrl+C to stop\n")
+    print("Starting Network Monitor...")
+    print(" Metrics will be available at: http://localhost:8000/metrics")
+    print("  Collecting metrics every 15 seconds...")
+    print(" Press Ctrl+C to stop\n")
     
     start_http_server(8000)
     
@@ -100,4 +98,4 @@ if __name__ == '__main__':
             collect_metrics()
             time.sleep(15)
     except KeyboardInterrupt:
-        print("\n👋 Stopping network monitor...")
+        print("\n Stopping network monitor...")
